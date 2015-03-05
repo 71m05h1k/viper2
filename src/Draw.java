@@ -15,7 +15,7 @@ public class Draw extends JPanel {
     public int MAX_SNAKE_SIZE = 1000;
     public int SnakeBody[][] = new int[2][MAX_SNAKE_SIZE];
 
-    public int x, y, z, zed;
+    public int x, y, z, zed, ya;
 
     public int vpravo = 0;
     public int vniz = 1;
