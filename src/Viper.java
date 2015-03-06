@@ -7,7 +7,7 @@ public class Viper {
     Viper() {
         JFrame frame = new JFrame("Viper");
         frame.setVisible(true);
-        frame.setSize(650, 680);
+        frame.setSize(820, 400);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         final Draw object = new Draw();
