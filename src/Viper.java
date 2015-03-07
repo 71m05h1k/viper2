@@ -16,28 +16,31 @@ public class Viper {
         object.grabFocus();
         frame.add(object);
 
+        //JLabel l = new JLabel("Score:\nLevel:\nLifes:\n");
+        //l.setFont(l.getFont().deriveFont(10f));
+        //object.add(l);
+
         object.addKeyListener(new KeyAdapter() {
             public void keyPressed(KeyEvent e) {
 //                System.out.println(e);
 
                 if (e.getKeyChar() == 'w') {
-                    object.to_vverh();
+                    object.changesnakedirect(object.vverh, object.vniz);
                 }
                 if (e.getKeyChar() == 's') {
-                    object.to_vniz();
+                    object.changesnakedirect(object.vniz, object.vverh);
                 }
                 if (e.getKeyChar() == 'a') {
-                    object.to_vlevo();
+                    object.changesnakedirect(object.vlevo, object.vpravo);
                 }
                 if (e.getKeyChar() == 'd') {
-                    object.to_vpravo();
+                    object.changesnakedirect(object.vpravo, object.vlevo);
                 }
                 object.updateUI();
             }
 
         });
 
-        //второй вариант
         new Thread(new MainLoop(object)).start();
 
     }
