@@ -20,12 +20,12 @@ public class Draw extends JPanel {
 
     public int SNAKE_BODY_COLOR = 0x888888; //ff0000
 
-    public int x, y, z, zed;
+    public int x, y; //, z;
 
-    public int vpravo = 0;
-    public int vniz = 1;
-    public int vlevo = 2;
-    public int vverh = 3;
+    public int direct_right = 0;
+    public int direct_down = 1;
+    public int direct_left = 2;
+    public int direct_up = 3;
     public int SNAKE_DIRECT;
 
     public void paintComponent(Graphics g) {
@@ -41,18 +41,17 @@ public class Draw extends JPanel {
 
     public void init() {
         CURRENT_SNAKE_SIZE = 8;
-        SNAKE_DIRECT = vpravo;
+        SNAKE_DIRECT = direct_right;
 //zapolnyaem pole
         for (y = 0; y < FIELD_Y_SIZE; y++) {
             for (x = 0; x < FIELD_X_SIZE; x++) {
                 SNAKE_FIELD[y][x] = FIELD_COLOR;
-//                }
             }
         }
 
 //risuem zmejku
-        for (z = 0; z < CURRENT_SNAKE_SIZE; z++) {
-            SNAKE_FIELD[SNAKE_BODY[1][z] = (FIELD_Y_SIZE / 2)][SNAKE_BODY[0][z] = (z + 5)] = SNAKE_BODY_COLOR;
+        for (int loc_counter = 0; loc_counter < CURRENT_SNAKE_SIZE; loc_counter++) {
+            SNAKE_FIELD[SNAKE_BODY[1][loc_counter] = (FIELD_Y_SIZE / 2)][SNAKE_BODY[0][loc_counter] = (loc_counter + 5)] = SNAKE_BODY_COLOR;
         }
         putapfel();
     }
@@ -61,28 +60,28 @@ public class Draw extends JPanel {
 
         SNAKE_BODY[0][CURRENT_SNAKE_SIZE] = SNAKE_BODY[0][CURRENT_SNAKE_SIZE - 1];
         SNAKE_BODY[1][CURRENT_SNAKE_SIZE] = SNAKE_BODY[1][CURRENT_SNAKE_SIZE - 1];
-        if (SNAKE_DIRECT == vpravo) {
+        if (SNAKE_DIRECT == direct_right) {
             SNAKE_BODY[0][CURRENT_SNAKE_SIZE]++;
         }
-        if (SNAKE_DIRECT == vlevo) {
+        if (SNAKE_DIRECT == direct_left) {
             SNAKE_BODY[0][CURRENT_SNAKE_SIZE]--;
         }
-        if (SNAKE_DIRECT == vverh) {
+        if (SNAKE_DIRECT == direct_up) {
             SNAKE_BODY[1][CURRENT_SNAKE_SIZE]--;
         }
-        if (SNAKE_DIRECT == vniz) {
+        if (SNAKE_DIRECT == direct_down) {
             SNAKE_BODY[1][CURRENT_SNAKE_SIZE]++;
         }
 
         if ((SNAKE_BODY[0][CURRENT_SNAKE_SIZE] < 0) || (SNAKE_BODY[1][CURRENT_SNAKE_SIZE] < 0) || (SNAKE_BODY[0][CURRENT_SNAKE_SIZE] == FIELD_X_SIZE) || (SNAKE_BODY[1][CURRENT_SNAKE_SIZE] == FIELD_Y_SIZE)) {
             init();
         } else if (headcolor() == FIELD_COLOR) {
-            SNAKE_FIELD[SNAKE_BODY[1][0]][SNAKE_BODY[0][0]] = FIELD_COLOR;
-            for (zed = 0; zed < CURRENT_SNAKE_SIZE; zed++) {
-                SNAKE_BODY[0][zed] = SNAKE_BODY[0][zed + 1];
-                SNAKE_BODY[1][zed] = SNAKE_BODY[1][zed + 1];
-            }
 
+            SNAKE_FIELD[SNAKE_BODY[1][0]][SNAKE_BODY[0][0]] = FIELD_COLOR;
+            for (int loc_counter= 0; loc_counter < CURRENT_SNAKE_SIZE; loc_counter++) {
+                SNAKE_BODY[0][loc_counter] = SNAKE_BODY[0][loc_counter + 1];
+                SNAKE_BODY[1][loc_counter] = SNAKE_BODY[1][loc_counter + 1];
+            }
             setheadcolor(SNAKE_BODY_COLOR);
         } else if (headcolor() == APFEL_COLOR) {
             setheadcolor(SNAKE_BODY_COLOR);

@@ -25,16 +25,16 @@ public class Viper {
 //                System.out.println(e);
 
                 if (e.getKeyChar() == 'w') {
-                    object.changesnakedirect(object.vverh, object.vniz);
+                    object.changesnakedirect(object.direct_up, object.direct_down);
                 }
                 if (e.getKeyChar() == 's') {
-                    object.changesnakedirect(object.vniz, object.vverh);
+                    object.changesnakedirect(object.direct_down, object.direct_up);
                 }
                 if (e.getKeyChar() == 'a') {
-                    object.changesnakedirect(object.vlevo, object.vpravo);
+                    object.changesnakedirect(object.direct_left, object.direct_right);
                 }
                 if (e.getKeyChar() == 'd') {
-                    object.changesnakedirect(object.vpravo, object.vlevo);
+                    object.changesnakedirect(object.direct_right, object.direct_left);
                 }
                 object.updateUI();
             }
