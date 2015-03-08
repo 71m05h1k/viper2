@@ -75,72 +75,78 @@ public class Draw extends JPanel {
 
         for (y = 0; y < FIELD_Y_SIZE; y++) {
             for (x = 0; x < FIELD_X_SIZE; x++) {
-                switch ((SNAKE_FIELD[y][x])) {
-                    case unfillingblock:
-                    case emptyblock:
-                        kkolor = FIELD_COLOR;
-                        break;
-                    case snakeblock:
-                        kkolor = SNAKE_BODY_COLOR;
-                        break;
-                    case apfelblock:
-                        kkolor = APFEL_COLOR;
-                        break;
-                    case block00:
-                        kkolor = block_color00;
-                        break;
-                    case block01:
-                        kkolor = block_color01;
-                        break;
-                    case block02:
-                        kkolor = block_color02;
-                        break;
-                    case block03:
-                        kkolor = block_color03;
-                        break;
-                    case block04:
-                        kkolor = block_color04;
-                        break;
-                    case block05:
-                        kkolor = block_color05;
-                        break;
-                    case block06:
-                        kkolor = block_color06;
-                        break;
-                    case block07:
-                        kkolor = block_color07;
-                        break;
-                    case block08:
-                        kkolor = block_color08;
-                        break;
-                    case block09:
-                        kkolor = block_color09;
-                        break;
-                    case block0a:
-                        kkolor = block_color0a;
-                        break;
-                    case block0b:
-                        kkolor = block_color0b;
-                        break;
-                    case block0c:
-                        kkolor = block_color0c;
-                        break;
-                    case block0d:
-                        kkolor = block_color0d;
-                        break;
-                    case block0e:
-                        kkolor = block_color0e;
-                        break;
-                    case block0f:
-                        kkolor = block_color0f;
-                        break;
-                    default:
-                        kkolor = emptyblock;
-                        break;
-                }
+                casecolor();
                 g.setColor(new Color(kkolor));
                 g.fillRect(RECT_MARGIN + x * (RECT_X_SIZE + GRID_TICKNESS), RECT_MARGIN + y * (RECT_Y_SIZE + GRID_TICKNESS), RECT_X_SIZE, RECT_Y_SIZE);
             }
+        }
+    }
+
+
+//vibor cveta kvadrata
+    private void casecolor() {
+        switch ((SNAKE_FIELD[y][x])) {
+            case unfillingblock:
+            case emptyblock:
+                kkolor = FIELD_COLOR;
+                break;
+            case snakeblock:
+                kkolor = SNAKE_BODY_COLOR;
+                break;
+            case apfelblock:
+                kkolor = APFEL_COLOR;
+                break;
+            case block00:
+                kkolor = block_color00;
+                break;
+            case block01:
+                kkolor = block_color01;
+                break;
+            case block02:
+                kkolor = block_color02;
+                break;
+            case block03:
+                kkolor = block_color03;
+                break;
+            case block04:
+                kkolor = block_color04;
+                break;
+            case block05:
+                kkolor = block_color05;
+                break;
+            case block06:
+                kkolor = block_color06;
+                break;
+            case block07:
+                kkolor = block_color07;
+                break;
+            case block08:
+                kkolor = block_color08;
+                break;
+            case block09:
+                kkolor = block_color09;
+                break;
+            case block0a:
+                kkolor = block_color0a;
+                break;
+            case block0b:
+                kkolor = block_color0b;
+                break;
+            case block0c:
+                kkolor = block_color0c;
+                break;
+            case block0d:
+                kkolor = block_color0d;
+                break;
+            case block0e:
+                kkolor = block_color0e;
+                break;
+            case block0f:
+                kkolor = block_color0f;
+                break;
+            default:
+                kkolor = emptyblock;
+                break;
         }
     }
 
