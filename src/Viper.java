@@ -38,7 +38,6 @@ public class Viper {
                 }
                 object.updateUI();
             }
-
         });
 
         new Thread(new MainLoop(object)).start();
