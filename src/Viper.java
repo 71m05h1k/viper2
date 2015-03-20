@@ -1,10 +1,11 @@
 import javax.swing.*;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.io.IOException;
 
 public class Viper {
 
-    Viper() {
+    Viper() throws IOException {
         JFrame frame = new JFrame("Viper");
         frame.setVisible(true);
         frame.setSize(820, 400);
@@ -41,13 +42,15 @@ public class Viper {
         });
 
         new Thread(new MainLoop(object)).start();
-
     }
-
     public static void main(String[] args) {
         SwingUtilities.invokeLater(new Runnable() {
             public void run() {
-                new Viper();
+                try {
+                    new Viper();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
             }
         });
     }
