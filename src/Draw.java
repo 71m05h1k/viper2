@@ -7,24 +7,23 @@ import java.io.IOException;
 
 public class Draw extends JPanel {
 
+//    private static final Font SMALL_FONT = new Font("Tahoma", Font.BOLD, 12);
+//    private static final Font MEDIUM_FONT = new Font("Tahoma", Font.BOLD, 16);
+//    private static final Font MEDIUM_FONT = new Font("Tahoma", Font.BOLD, 16);
+
     public int FIELD_X_SIZE = 51;
     public int FIELD_Y_SIZE = 23;
     public byte SNAKE_FIELD[][] = new byte[FIELD_Y_SIZE][FIELD_X_SIZE];
-    public int kkolor;
+
 
     public int RECT_MARGIN = 1;
-    public int RECT_X_SIZE = 15;
-    public int RECT_Y_SIZE = 15;
-    public int GRID_TICKNESS = 1;
+    public int RECT_X_SIZE = 12;
+    public int RECT_Y_SIZE = 12;
 
-    public int FIELD_COLOR = 0x000000; //eeeeee
-
-    public int APFEL_COLOR = 0xff0000; //00ff00
 
     public int CURRENT_SNAKE_SIZE;
     public int SNAKE_BODY[][] = new int[2][FIELD_X_SIZE * FIELD_Y_SIZE];
 
-    public int SNAKE_BODY_COLOR = 0x888888; //ff0000
 
     public int x, y;
 
@@ -55,22 +54,26 @@ public class Draw extends JPanel {
     public final byte snakeblock = '*';
     public final byte apfelblock = '@';
 
-    public int block_color00 = 0x202c38;
-    public int block_color01 = 0x4d6d8a;
-    public int block_color02 = 0x82baeb;
-    public int block_color03 = 0xffffff;
-    public int block_color04 = 0x000000;
-    public int block_color05 = 0x000000;
-    public int block_color06 = 0x000000;
-    public int block_color07 = 0x000000;
-    public int block_color08 = 0x000000;
-    public int block_color09 = 0x000000;
-    public int block_color0a = 0x000000;
-    public int block_color0b = 0x000000;
-    public int block_color0c = 0x000000;
-    public int block_color0d = 0x000000;
-    public int block_color0e = 0x000000;
-    public int block_color0f = 0x000000;
+    //Color  kkolor = new Color();
+    public Color FIELD_COLOR = new Color(0x000000); //eeeeee
+    public Color APFEL_COLOR = new Color(0xff0000); //00ff00
+    public Color SNAKE_BODY_COLOR = new Color(0x888888); //ff0000
+    public Color block_color00 = new Color(0x202c38);
+    public Color block_color01 = new Color(0x4d6d8a);
+    public Color block_color02 = new Color(0x82baeb);
+    public Color block_color03 = new Color(0xffffff);
+    public Color block_color04 = new Color(0x000000);
+    public Color block_color05 = new Color(0x000000);
+    public Color block_color06 = new Color(0x000000);
+    public Color block_color07 = new Color(0x000000);
+    public Color block_color08 = new Color(0x000000);
+    public Color block_color09 = new Color(0x000000);
+    public Color block_color0a = new Color(0x000000);
+    public Color block_color0b = new Color(0x000000);
+    public Color block_color0c = new Color(0x000000);
+    public Color block_color0d = new Color(0x000000);
+    public Color block_color0e = new Color(0x000000);
+    public Color block_color0f = new Color(0x000000);
 
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
@@ -79,78 +82,62 @@ public class Draw extends JPanel {
 
         for (y = 0; y < FIELD_Y_SIZE; y++) {
             for (x = 0; x < FIELD_X_SIZE; x++) {
-                casecolor();
-                g.setColor(new Color(kkolor));
-                g.fillRect(RECT_MARGIN + x * (RECT_X_SIZE + GRID_TICKNESS), RECT_MARGIN + y * (RECT_Y_SIZE + GRID_TICKNESS), RECT_X_SIZE, RECT_Y_SIZE);
+                //getBrickColor();
+                g.setColor(getBrickColor());
+                g.fillRect(RECT_MARGIN + x * (RECT_X_SIZE), RECT_MARGIN + y * (RECT_Y_SIZE), RECT_X_SIZE, RECT_Y_SIZE);
             }
         }
+
+//        g.setColor(Color.YELLOW);
+//        g.setFont(SMALL_FONT);
+//        g.drawString("ABRAKADABRA",100,100);
     }
 
 
 //vibor cveta kvadrata
-    private void casecolor() {
+private Color getBrickColor() {
         switch ((SNAKE_FIELD[y][x])) {
             case unfillingblock:
             case emptyblock:
-                kkolor = FIELD_COLOR;
-                break;
+                return FIELD_COLOR;
             case snakeblock:
-                kkolor = SNAKE_BODY_COLOR;
-                break;
+                return SNAKE_BODY_COLOR;
             case apfelblock:
-                kkolor = APFEL_COLOR;
-                break;
+                return APFEL_COLOR;
             case block00:
-                kkolor = block_color00;
-                break;
+                return block_color00;
             case block01:
-                kkolor = block_color01;
-                break;
+                return block_color01;
             case block02:
-                kkolor = block_color02;
-                break;
+                return block_color02;
             case block03:
-                kkolor = block_color03;
-                break;
+                return block_color03;
             case block04:
-                kkolor = block_color04;
-                break;
+                return block_color04;
             case block05:
-                kkolor = block_color05;
-                break;
+                return block_color05;
             case block06:
-                kkolor = block_color06;
-                break;
+                return block_color06;
             case block07:
-                kkolor = block_color07;
-                break;
+                return block_color07;
             case block08:
-                kkolor = block_color08;
-                break;
+                return block_color08;
             case block09:
-                kkolor = block_color09;
-                break;
+                return block_color09;
             case block0a:
-                kkolor = block_color0a;
-                break;
+                return block_color0a;
             case block0b:
-                kkolor = block_color0b;
-                break;
+                return block_color0b;
             case block0c:
-                kkolor = block_color0c;
-                break;
+                return block_color0c;
             case block0d:
-                kkolor = block_color0d;
-                break;
+                return block_color0d;
             case block0e:
-                kkolor = block_color0e;
-                break;
+                return block_color0e;
             case block0f:
-                kkolor = block_color0f;
-                break;
+                return block_color0f;
             default:
-                kkolor = emptyblock;
-                break;
+                return FIELD_COLOR;
         }
     }
 
@@ -172,6 +159,7 @@ public class Draw extends JPanel {
         for (yy = 0; yy < FIELD_Y_SIZE; yy++) {
 
             try {
+                assert fajleg != null;
                 stroka = fajleg.readLine();
 
                 for (xx = 0; xx < FIELD_X_SIZE; xx++) {
@@ -182,12 +170,6 @@ public class Draw extends JPanel {
                 e.printStackTrace();
             }
         }
-//zapolnyaem pole
-//        for (y = 0; y < FIELD_Y_SIZE; y++) {
-//            for (x = 0; x < FIELD_X_SIZE; x++) {
-//                SNAKE_FIELD[y][x] = emptyblock;
-//            }
-//        }
 
 //risuem zmejku
         for (int loc_counter = 0; loc_counter < CURRENT_SNAKE_SIZE; loc_counter++) {

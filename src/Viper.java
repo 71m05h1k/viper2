@@ -11,37 +11,33 @@ public class Viper {
         frame.setSize(820, 400);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-        final Draw object = new Draw();
-        object.init();
-        object.setFocusable(true);
-        object.grabFocus();
-        frame.add(object);
+        final Draw snakeField = new Draw();
+        snakeField.init();
+        snakeField.setFocusable(true);
+        snakeField.grabFocus();
+        frame.add(snakeField);
 
-        //JLabel l = new JLabel("Score:\nLevel:\nLifes:\n");
-        //l.setFont(l.getFont().deriveFont(10f));
-        //object.add(l);
-
-        object.addKeyListener(new KeyAdapter() {
+        snakeField.addKeyListener(new KeyAdapter() {
             public void keyPressed(KeyEvent e) {
 //                System.out.println(e);
 
                 if (e.getKeyChar() == 'w') {
-                    object.changesnakedirect(object.direct_up, object.direct_down);
+                    snakeField.changesnakedirect(snakeField.direct_up, snakeField.direct_down);
                 }
                 if (e.getKeyChar() == 's') {
-                    object.changesnakedirect(object.direct_down, object.direct_up);
+                    snakeField.changesnakedirect(snakeField.direct_down, snakeField.direct_up);
                 }
                 if (e.getKeyChar() == 'a') {
-                    object.changesnakedirect(object.direct_left, object.direct_right);
+                    snakeField.changesnakedirect(snakeField.direct_left, snakeField.direct_right);
                 }
                 if (e.getKeyChar() == 'd') {
-                    object.changesnakedirect(object.direct_right, object.direct_left);
+                    snakeField.changesnakedirect(snakeField.direct_right, snakeField.direct_left);
                 }
-                object.updateUI();
+                snakeField.updateUI();
             }
         });
 
-        new Thread(new MainLoop(object)).start();
+        new Thread(new MainLoop(snakeField)).start();
     }
     public static void main(String[] args) {
         SwingUtilities.invokeLater(new Runnable() {
