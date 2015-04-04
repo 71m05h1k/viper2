@@ -22,7 +22,7 @@ public class Draw extends JPanel {
 //    private static final Font BIG_FONT = new Font("Tahoma", Font.BOLD, 20);
 
     public String LEVEL_SET = "ft2";
-    public int CURRENT_LEVEL = 1;
+    public int CURRENT_LEVEL;
 
     public int FIELD_X_SIZE = 51;
     public int FIELD_Y_SIZE = 23;
@@ -71,7 +71,7 @@ public class Draw extends JPanel {
     public Color block_color01 = new Color(0x4d6d8a);
     public Color block_color02 = new Color(0x82baeb);
     public Color block_color03 = new Color(0xffffff);
-    public Color block_color04 = new Color(0x000000);
+    public Color block_color04 = new Color(0x3c4551);
     public Color block_color05 = new Color(0x000000);
     public Color block_color06 = new Color(0x000000);
     public Color block_color07 = new Color(0x000000);
@@ -101,7 +101,7 @@ public class Draw extends JPanel {
         }
 
         int drawY = OSD_TEXT_Y_OFFSET;
-        g.setColor(Color.GREEN);
+        g.setColor(Color.BLUE);
         g.setFont(SMALL_FONT);
         g.drawString("Levelset: " + LEVEL_SET, OSD_TEXT_X_OFFSET, drawY += OSD_TEXT_Y_OFFSET);
         g.drawString("Level: " + CURRENT_LEVEL, OSD_TEXT_X_OFFSET, drawY += OSD_TEXT_Y_STRIDE);
@@ -158,12 +158,19 @@ public class Draw extends JPanel {
         }
     }
 
-    public void init() {
-        apfelz = 1;
-        rastishka = startrastishka;
-        CURRENT_SNAKE_SIZE = 1;
-        SNAKE_DIRECT = direct_right;
+    public void newGame() {
+        CURRENT_LEVEL = -1;
+        nextLevel();
+    }
 
+    private void putNewSnake() {
+        //risuem zmejku i zanosim koordinati golovi, vernee naoborot
+        SNAKE_BODY[1][0] = 0;
+        SNAKE_BODY[0][0] = 0;
+        SNAKE_FIELD[SNAKE_BODY[1][0]][SNAKE_BODY[0][0]] = snakeblock;
+    }
+
+    private void loadLevel() {
         BufferedReader fajleg = null;
         try {
             fajleg = new BufferedReader(new FileReader("./levelset/" + LEVEL_SET + "/" + CURRENT_LEVEL + ".lvl"));
@@ -172,11 +179,8 @@ public class Draw extends JPanel {
         }
 
         String stroka;
-
         int xx, yy;
-
         for (yy = 0; yy < FIELD_Y_SIZE; yy++) {
-
             try {
                 assert fajleg != null;
                 stroka = fajleg.readLine();
@@ -184,22 +188,24 @@ public class Draw extends JPanel {
                 for (xx = 0; xx < FIELD_X_SIZE; xx++) {
                     SNAKE_FIELD[yy][xx] = (byte) stroka.charAt(xx);
                 }
-
             } catch (IOException e) {
                 e.printStackTrace();
             }
         }
+    }
 
-//risuem zmejku i zanosim koordinati golovi, vernee naoborot
-
-        SNAKE_BODY[1][0] = 0;
-        SNAKE_BODY[0][0] = 0;
-        SNAKE_FIELD[SNAKE_BODY[1][0]][SNAKE_BODY[0][0]] = snakeblock;
+    void nextLevel() {
+        apfelz = 9;
+        rastishka = startrastishka;
+        CURRENT_SNAKE_SIZE = 1;
+        SNAKE_DIRECT = direct_right;
+        CURRENT_LEVEL++;
+        loadLevel();
+        putNewSnake();
         putapfel();
     }
 
     void dvizhenie() {
-
         SNAKE_BODY[0][CURRENT_SNAKE_SIZE] = SNAKE_BODY[0][CURRENT_SNAKE_SIZE - 1];
         SNAKE_BODY[1][CURRENT_SNAKE_SIZE] = SNAKE_BODY[1][CURRENT_SNAKE_SIZE - 1];
         if (SNAKE_DIRECT == direct_right) {
@@ -214,29 +220,35 @@ public class Draw extends JPanel {
         if (SNAKE_DIRECT == direct_down) {
             SNAKE_BODY[1][CURRENT_SNAKE_SIZE]++;
         }
+    }
 
+    void moveCheck() {
         if ((SNAKE_BODY[0][CURRENT_SNAKE_SIZE] < 0) || (SNAKE_BODY[1][CURRENT_SNAKE_SIZE] < 0) || (SNAKE_BODY[0][CURRENT_SNAKE_SIZE] == FIELD_X_SIZE) || (SNAKE_BODY[1][CURRENT_SNAKE_SIZE] == FIELD_Y_SIZE)) {
-            init();
+            newGame();
+            return;
         } else if (headcolor() == apfelblock) {
-            removeapfel();
-            rastishka += apfelz++;
+            setHeadBlock(emptyblock);
+            rastishka += apfelz--;
+            if (apfelz == 0) {
+                nextLevel();
+                return;
+            }
             putapfel();
         } else if (headcolor() == emptyblock) {
-            setnewhead();
+            setHeadBlock(snakeblock);
             if (rastishka != 0) {
                 CURRENT_SNAKE_SIZE++;
                 rastishka--;
             } else {
                 bodymove();
             }
-//            setnewhead();
         } else {
-            init();
+            newGame();
         }
     }
 
-    void removeapfel() {
-        SNAKE_FIELD[SNAKE_BODY[1][CURRENT_SNAKE_SIZE]][SNAKE_BODY[0][CURRENT_SNAKE_SIZE]] = emptyblock;
+    void setHeadBlock(byte putableblock) {
+        SNAKE_FIELD[SNAKE_BODY[1][CURRENT_SNAKE_SIZE]][SNAKE_BODY[0][CURRENT_SNAKE_SIZE]] = putableblock;
     }
 
     void bodymove() {
@@ -249,10 +261,6 @@ public class Draw extends JPanel {
 
     byte headcolor() {
         return SNAKE_FIELD[SNAKE_BODY[1][CURRENT_SNAKE_SIZE]][SNAKE_BODY[0][CURRENT_SNAKE_SIZE]];
-    }
-
-    void setnewhead() {
-        SNAKE_FIELD[SNAKE_BODY[1][CURRENT_SNAKE_SIZE]][SNAKE_BODY[0][CURRENT_SNAKE_SIZE]] = snakeblock;
     }
 
     void putapfel() {

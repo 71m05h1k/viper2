@@ -10,6 +10,7 @@ public class MainLoop implements Runnable {
     public void run() {
         while (!Thread.currentThread().isInterrupted()) {
                 object.dvizhenie();
+            object.moveCheck();
                 object.updateUI();
             try {
                 Thread.sleep(100);

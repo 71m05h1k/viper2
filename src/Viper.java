@@ -3,16 +3,16 @@ import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.io.IOException;
 
-public class Viper2 {
+public class Viper {
 
-    Viper2() throws IOException {
-        JFrame frame = new JFrame("Viper2");
+    Viper() throws IOException {
+        JFrame frame = new JFrame("Viper");
         frame.setVisible(true);
         frame.setSize(820, 400);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         final Draw snakeField = new Draw();
-        snakeField.init();
+        snakeField.newGame();
         snakeField.setFocusable(true);
         snakeField.grabFocus();
         frame.add(snakeField);
@@ -43,7 +43,7 @@ public class Viper2 {
         SwingUtilities.invokeLater(new Runnable() {
             public void run() {
                 try {
-                    new Viper2();
+                    new Viper();
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
