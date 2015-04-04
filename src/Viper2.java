@@ -3,10 +3,10 @@ import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.io.IOException;
 
-public class Viper {
+public class Viper2 {
 
-    Viper() throws IOException {
-        JFrame frame = new JFrame("Viper");
+    Viper2() throws IOException {
+        JFrame frame = new JFrame("Viper2");
         frame.setVisible(true);
         frame.setSize(820, 400);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -43,7 +43,7 @@ public class Viper {
         SwingUtilities.invokeLater(new Runnable() {
             public void run() {
                 try {
-                    new Viper();
+                    new Viper2();
                 } catch (IOException e) {
                     e.printStackTrace();
                 }

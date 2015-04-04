@@ -7,23 +7,33 @@ import java.io.IOException;
 
 public class Draw extends JPanel {
 
-//    private static final Font SMALL_FONT = new Font("Tahoma", Font.BOLD, 12);
+    public Color brickcolor = null;
+
+    public int rastishka;
+    public int startrastishka = 3;
+    public int apfelz;
+
+    public int OSD_TEXT_X_OFFSET = 4;
+    public int OSD_TEXT_Y_STRIDE = 12;
+    public int OSD_TEXT_Y_OFFSET = 8;
+
+    private static final Font SMALL_FONT = new Font("Tahoma", Font.BOLD, 12);
 //    private static final Font MEDIUM_FONT = new Font("Tahoma", Font.BOLD, 16);
-//    private static final Font MEDIUM_FONT = new Font("Tahoma", Font.BOLD, 16);
+//    private static final Font BIG_FONT = new Font("Tahoma", Font.BOLD, 20);
+
+    public String LEVEL_SET = "ft2";
+    public int CURRENT_LEVEL = 1;
 
     public int FIELD_X_SIZE = 51;
     public int FIELD_Y_SIZE = 23;
     public byte SNAKE_FIELD[][] = new byte[FIELD_Y_SIZE][FIELD_X_SIZE];
 
-
     public int RECT_MARGIN = 1;
     public int RECT_X_SIZE = 12;
     public int RECT_Y_SIZE = 12;
 
-
     public int CURRENT_SNAKE_SIZE;
     public int SNAKE_BODY[][] = new int[2][FIELD_X_SIZE * FIELD_Y_SIZE];
-
 
     public int x, y;
 
@@ -54,10 +64,9 @@ public class Draw extends JPanel {
     public final byte snakeblock = '*';
     public final byte apfelblock = '@';
 
-    //Color  kkolor = new Color();
-    public Color FIELD_COLOR = new Color(0x000000); //eeeeee
-    public Color APFEL_COLOR = new Color(0xff0000); //00ff00
-    public Color SNAKE_BODY_COLOR = new Color(0x888888); //ff0000
+    public Color empty_block_color = new Color(0x000000); //eeeeee
+    public Color apfel_block_color = new Color(0xff0000); //00ff00
+    public Color snake_block_color = new Color(0x888888); //ff0000
     public Color block_color00 = new Color(0x202c38);
     public Color block_color01 = new Color(0x4d6d8a);
     public Color block_color02 = new Color(0x82baeb);
@@ -79,31 +88,39 @@ public class Draw extends JPanel {
         super.paintComponent(g);
 
 //vivodim pole
-
+        g.setColor(empty_block_color);
+        g.fillRect(RECT_MARGIN, RECT_MARGIN, RECT_X_SIZE * FIELD_X_SIZE, RECT_Y_SIZE * FIELD_Y_SIZE);
         for (y = 0; y < FIELD_Y_SIZE; y++) {
             for (x = 0; x < FIELD_X_SIZE; x++) {
-                //getBrickColor();
-                g.setColor(getBrickColor());
-                g.fillRect(RECT_MARGIN + x * (RECT_X_SIZE), RECT_MARGIN + y * (RECT_Y_SIZE), RECT_X_SIZE, RECT_Y_SIZE);
+
+                if ((brickcolor = getBrickColor()) != empty_block_color) {
+                    g.setColor(brickcolor);
+                    g.fillRect(RECT_MARGIN + x * (RECT_X_SIZE), RECT_MARGIN + y * (RECT_Y_SIZE), RECT_X_SIZE, RECT_Y_SIZE);
+                }
             }
         }
 
-//        g.setColor(Color.YELLOW);
-//        g.setFont(SMALL_FONT);
-//        g.drawString("ABRAKADABRA",100,100);
+        int drawY = OSD_TEXT_Y_OFFSET;
+        g.setColor(Color.GREEN);
+        g.setFont(SMALL_FONT);
+        g.drawString("Levelset: " + LEVEL_SET, OSD_TEXT_X_OFFSET, drawY += OSD_TEXT_Y_OFFSET);
+        g.drawString("Level: " + CURRENT_LEVEL, OSD_TEXT_X_OFFSET, drawY += OSD_TEXT_Y_STRIDE);
+        g.drawString("Apples: " + apfelz, OSD_TEXT_X_OFFSET, drawY += OSD_TEXT_Y_STRIDE);
+        g.drawString("Lives: ", OSD_TEXT_X_OFFSET, drawY += OSD_TEXT_Y_STRIDE);
+        g.drawString("Score: ", OSD_TEXT_X_OFFSET, drawY += OSD_TEXT_Y_STRIDE);
+        g.drawString("HiScore: ", OSD_TEXT_X_OFFSET, drawY += OSD_TEXT_Y_STRIDE);
     }
 
-
-//vibor cveta kvadrata
-private Color getBrickColor() {
+    //vibor cveta kvadrata
+    private Color getBrickColor() {
         switch ((SNAKE_FIELD[y][x])) {
             case unfillingblock:
             case emptyblock:
-                return FIELD_COLOR;
+                return empty_block_color;
             case snakeblock:
-                return SNAKE_BODY_COLOR;
+                return snake_block_color;
             case apfelblock:
-                return APFEL_COLOR;
+                return apfel_block_color;
             case block00:
                 return block_color00;
             case block01:
@@ -137,17 +154,19 @@ private Color getBrickColor() {
             case block0f:
                 return block_color0f;
             default:
-                return FIELD_COLOR;
+                return empty_block_color;
         }
     }
 
     public void init() {
-        CURRENT_SNAKE_SIZE = 8;
+        apfelz = 1;
+        rastishka = startrastishka;
+        CURRENT_SNAKE_SIZE = 1;
         SNAKE_DIRECT = direct_right;
 
         BufferedReader fajleg = null;
         try {
-            fajleg = new BufferedReader(new FileReader("./levelset/ft2/1.lvl"));
+            fajleg = new BufferedReader(new FileReader("./levelset/" + LEVEL_SET + "/" + CURRENT_LEVEL + ".lvl"));
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
@@ -171,10 +190,11 @@ private Color getBrickColor() {
             }
         }
 
-//risuem zmejku
-        for (int loc_counter = 0; loc_counter < CURRENT_SNAKE_SIZE; loc_counter++) {
-            SNAKE_FIELD[SNAKE_BODY[1][loc_counter] = (FIELD_Y_SIZE / 2)][SNAKE_BODY[0][loc_counter] = (loc_counter + 5)] = snakeblock;
-        }
+//risuem zmejku i zanosim koordinati golovi, vernee naoborot
+
+        SNAKE_BODY[1][0] = 0;
+        SNAKE_BODY[0][0] = 0;
+        SNAKE_FIELD[SNAKE_BODY[1][0]][SNAKE_BODY[0][0]] = snakeblock;
         putapfel();
     }
 
@@ -197,20 +217,33 @@ private Color getBrickColor() {
 
         if ((SNAKE_BODY[0][CURRENT_SNAKE_SIZE] < 0) || (SNAKE_BODY[1][CURRENT_SNAKE_SIZE] < 0) || (SNAKE_BODY[0][CURRENT_SNAKE_SIZE] == FIELD_X_SIZE) || (SNAKE_BODY[1][CURRENT_SNAKE_SIZE] == FIELD_Y_SIZE)) {
             init();
-        } else if (headcolor() == emptyblock) {
-
-            SNAKE_FIELD[SNAKE_BODY[1][0]][SNAKE_BODY[0][0]] = emptyblock;
-            for (int loc_counter = 0; loc_counter < CURRENT_SNAKE_SIZE; loc_counter++) {
-                SNAKE_BODY[0][loc_counter] = SNAKE_BODY[0][loc_counter + 1];
-                SNAKE_BODY[1][loc_counter] = SNAKE_BODY[1][loc_counter + 1];
-            }
-            setnewhead();
         } else if (headcolor() == apfelblock) {
-            setnewhead();
-            CURRENT_SNAKE_SIZE++;
+            removeapfel();
+            rastishka += apfelz++;
             putapfel();
+        } else if (headcolor() == emptyblock) {
+            setnewhead();
+            if (rastishka != 0) {
+                CURRENT_SNAKE_SIZE++;
+                rastishka--;
+            } else {
+                bodymove();
+            }
+//            setnewhead();
         } else {
             init();
+        }
+    }
+
+    void removeapfel() {
+        SNAKE_FIELD[SNAKE_BODY[1][CURRENT_SNAKE_SIZE]][SNAKE_BODY[0][CURRENT_SNAKE_SIZE]] = emptyblock;
+    }
+
+    void bodymove() {
+        SNAKE_FIELD[SNAKE_BODY[1][0]][SNAKE_BODY[0][0]] = emptyblock;
+        for (int loc_counter = 0; loc_counter < CURRENT_SNAKE_SIZE; loc_counter++) {
+            SNAKE_BODY[0][loc_counter] = SNAKE_BODY[0][loc_counter + 1];
+            SNAKE_BODY[1][loc_counter] = SNAKE_BODY[1][loc_counter + 1];
         }
     }
 
