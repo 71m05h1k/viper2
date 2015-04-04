@@ -72,7 +72,7 @@ public class Draw extends JPanel {
     public Color block_color02 = new Color(0x82baeb);
     public Color block_color03 = new Color(0xffffff);
     public Color block_color04 = new Color(0x3c4551);
-    public Color block_color05 = new Color(0x000000);
+    public Color block_color05 = new Color(0xa6b6db);
     public Color block_color06 = new Color(0x000000);
     public Color block_color07 = new Color(0x000000);
     public Color block_color08 = new Color(0x000000);
@@ -225,7 +225,7 @@ public class Draw extends JPanel {
     void moveCheck() {
         if ((SNAKE_BODY[0][CURRENT_SNAKE_SIZE] < 0) || (SNAKE_BODY[1][CURRENT_SNAKE_SIZE] < 0) || (SNAKE_BODY[0][CURRENT_SNAKE_SIZE] == FIELD_X_SIZE) || (SNAKE_BODY[1][CURRENT_SNAKE_SIZE] == FIELD_Y_SIZE)) {
             newGame();
-            return;
+//            return;
         } else if (headcolor() == apfelblock) {
             setHeadBlock(emptyblock);
             rastishka += apfelz--;
